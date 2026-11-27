@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Create the demo-shop Flagsmith project: 3 environments, 7 flags in different states.
+# Create the demo-shop Flagsmith project: 3 environments, 3 flags in different states.
 # Usage: scripts/seed-flagsmith.sh ORGANISATION   (id or name; see `flagsmith organisation list`)
 # Needs `flagsmith login` first. Writes flagsmith.json in the repo root.
 set -euo pipefail
@@ -16,12 +16,6 @@ dev=$(fs environment list -p "$project" --jq '.[] | select(.name == "Development
 prod=$(fs environment list -p "$project" --jq '.[] | select(.name == "Production") | .api_key')
 fs init -p "$project" -e "$dev" >/dev/null
 
-# Settled: same everywhere, safe to remove.
-fs feature create new_checkout_flow --enabled --description "One-page checkout (rolled out to everyone)"
-fs feature create legacy_search --description "Old whole-word search (switched off)"
-fs feature create free_shipping_threshold --enabled --value 50 --description "Order total for free shipping"
-# Settled, and no code reads it.
-fs feature create promo_banner_2025 --enabled --value "Holiday sale" --description "2025 holiday banner"
 # Still doing work: a segment override, a permanent tag, a rollout in progress.
 fs feature create dark_mode --description "Dark theme, beta testers only"
 fs feature create payments_kill_switch --description "Stops card payments during an incident"
