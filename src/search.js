@@ -1,20 +1,5 @@
-/** Search the catalogue. The legacy path matched whole words only. */
-export function search(products, query, flags) {
-  if (flags.isFeatureEnabled('legacy_search')) {
-    return legacySearch(products, query);
-  }
-  return fuzzySearch(products, query);
-}
-
-function legacySearch(products, query) {
-  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
-  return products.filter((p) => {
-    const nameWords = p.name.toLowerCase().split(/\s+/);
-    return words.every((w) => nameWords.includes(w));
-  });
-}
-
-function fuzzySearch(products, query) {
+/** Search the catalogue by partial name match, best match first. */
+export function search(products, query) {
   const q = query.toLowerCase().trim();
   if (!q) return [];
   return products
