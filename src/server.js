@@ -33,14 +33,14 @@ const server = http.createServer(async (req, res) => {
       return send(res, 200, renderHome({ name: userId }, flags));
     }
     if (req.method === 'GET' && url.pathname === '/search') {
-      return send(res, 200, search(PRODUCTS, url.searchParams.get('q') ?? ''));
+      return send(res, 200, search(PRODUCTS, url.searchParams.get('q') ?? '', flags));
     }
     if (req.method === 'POST' && url.pathname === '/checkout') {
       if (!canTakePayments(flags)) {
         return send(res, 503, { error: 'Payments are paused. Try again soon.' });
       }
       const { cart = [] } = await readJson(req);
-      return send(res, 200, checkout(cart));
+      return send(res, 200, checkout(cart, flags));
     }
     send(res, 404, { error: 'not found' });
   } catch (err) {
