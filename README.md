@@ -23,8 +23,11 @@ FLAGSMITH_SERVER_KEY=ser.xxx npm start
 
 ## Make your own copy of the Flagsmith project
 
+The setup scripts live in the skill repo, so the only code here that names the flags is the app itself.
+
 ```sh
 flagsmith login
-scripts/seed-flagsmith.sh "<your organisation>"   # creates the project, environments and flags
-scripts/reset-demo.sh                              # after a cleanup run: unarchive flags, back to main
+git clone https://github.com/Sher110106/flagsmith-flag-cleanup
+flagsmith-flag-cleanup/demo/seed-flagsmith.sh "<your organisation>" .   # project, environments, flags
+flagsmith-flag-cleanup/demo/reset-demo.sh .                             # after a run: unarchive, back to main
 ```
